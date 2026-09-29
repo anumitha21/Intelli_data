@@ -1,0 +1,65 @@
+{
+  "chosen_model": "XGBoost (Weighted)",
+  "decision_threshold": 0.44,
+  "test_metrics": {
+    "Accuracy": 0.5479,
+    "Precision": 0.4936,
+    "Recall": 0.8256,
+    "F1": 0.6178,
+    "ROC_AUC": 0.6165,
+    "Confusion_Matrix": [
+      [
+        1040,
+        2137
+      ],
+      [
+        440,
+        2083
+      ]
+    ]
+  },
+  "all_models_comparison": {
+    "Decision Tree (Unweighted)": {
+      "Accuracy": 0.5614,
+      "Precision": 0.5055,
+      "Recall": 0.4154,
+      "F1": 0.456,
+      "ROC_AUC": 0.59
+    },
+    "Decision Tree (Balanced)": {
+      "Accuracy": 0.5653,
+      "Precision": 0.5075,
+      "Recall": 0.6017,
+      "F1": 0.5506,
+      "ROC_AUC": 0.5899
+    },
+    "Random Forest (Unweighted)": {
+      "Accuracy": 0.5733,
+      "Precision": 0.5144,
+      "Recall": 0.6445,
+      "F1": 0.5721,
+      "ROC_AUC": 0.6157
+    },
+    "Random Forest (Balanced)": {
+      "Accuracy": 0.5686,
+      "Precision": 0.5095,
+      "Recall": 0.6774,
+      "F1": 0.5816,
+      "ROC_AUC": 0.613
+    },
+    "XGBoost (Unweighted)": {
+      "Accuracy": 0.5688,
+      "Precision": 0.5098,
+      "Recall": 0.673,
+      "F1": 0.5801,
+      "ROC_AUC": 0.6145
+    },
+    "XGBoost (Weighted)": {
+      "Accuracy": 0.5639,
+      "Precision": 0.5053,
+      "Recall": 0.7055,
+      "F1": 0.5888,
+      "ROC_AUC": 0.6165
+    }
+  }
+}

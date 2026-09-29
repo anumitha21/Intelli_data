@@ -1,0 +1,32 @@
+{
+  "Baseline (7-Day Mean)": {
+    "MAE": 165.2,
+    "RMSE": 208.48,
+    "MAPE_pct": 29.08,
+    "R2": 0.0133
+  },
+  "Linear Regression": {
+    "MAE": 148.29,
+    "RMSE": 188.35,
+    "MAPE_pct": 27.83,
+    "R2": 0.1946
+  },
+  "Decision Tree": {
+    "MAE": 153.37,
+    "RMSE": 196.78,
+    "MAPE_pct": 29.45,
+    "R2": 0.1209
+  },
+  "Random Forest": {
+    "MAE": 146.66,
+    "RMSE": 189.37,
+    "MAPE_pct": 28.17,
+    "R2": 0.1859
+  },
+  "XGBoost Regressor": {
+    "MAE": 141.45,
+    "RMSE": 183.67,
+    "MAPE_pct": 27.81,
+    "R2": 0.2341
+  }
+}
