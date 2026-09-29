@@ -15,6 +15,7 @@ All visualizations use matplotlib & seaborn with consistent brand palette and me
 """
 
 import os
+os.environ["GRADIO_ANALYTICS_ENABLED"] = "False"
 import sys
 import json
 from pathlib import Path

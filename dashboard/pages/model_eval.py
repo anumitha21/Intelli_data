@@ -5,6 +5,7 @@ proof panels (significance, time-series CV, segment checks), and audit trail.
 """
 
 import os
+os.environ["GRADIO_ANALYTICS_ENABLED"] = "False"
 import sys
 import json
 from pathlib import Path
