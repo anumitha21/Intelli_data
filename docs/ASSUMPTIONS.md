@@ -186,4 +186,37 @@ To completely eliminate label overlap leakage (since 7-day targets span $t+1 \do
 
 For sparse products with $< 28$ days of historical data (`P121`, `P122`), missing lag and rolling demand signals are imputed using category-level empirical means computed strictly on the training partition (`cat_means`). A binary indicator `cold_start = 1` informs downstream estimators of low-confidence historical priors.
 
+---
+
+## P5 – Inventory Recommendation Logic & Risk Tiers (2026-09-29)
+
+### Safety Stock & Dynamic Replenishment Formula
+
+1. **Safety Stock Formulation:**
+   $$\text{safety\_stock} = \left\lceil z \times \text{rolling\_std\_7} \times \sqrt{\text{lead\_days}} \right\rceil$$
+   - Safety factor: $z = 1.65$, corresponding to a target $95\%$ service cycle level under demand volatility.
+   - $\text{rolling\_std\_7}$ is computed on shifted demand (zero future information leakage).
+   - Minimum buffer floor: enforced at 5 units to absorb minimum packaging minimums.
+
+2. **Recommended Target Stock:**
+   $$\text{recommended\_stock} = \left\lceil \text{forecast\_demand\_7d} + \text{safety\_stock} \right\rceil$$
+
+3. **Reorder Quantity Calculation:**
+   $$\text{reorder\_quantity} = \max\left(0, \text{recommended\_stock} - \text{current\_stock} - \text{incoming\_stock}\right)$$
+   - Strictly non-negative integer orders (`reorder_quantity >= 0`).
+   - Prevents double-ordering when incoming warehouse purchase orders are already in transit.
+
+### Risk Tier Boundaries
+
+Classification probability output $p = P(\text{stock-out in } t+1 \dots t+7)$ is mapped into operational tiers:
+- **High Risk:** $p \ge 0.70$ $\to$ Immediate automated order placement and supplier expedite.
+- **Medium Risk:** $0.40 \le p < 0.70$ $\to$ Monitored daily; replenishment raised on standard schedule.
+- **Low Risk:** $p < 0.40$ $\to$ Normal operating buffer maintained.
+
+### Revenue at Risk
+
+$$\text{revenue\_at\_risk} = \text{forecast\_demand\_7d} \times \text{unit\_price} \times p$$
+Used as the secondary sort key to ensure managers prioritize high-value stock-outs over low-margin items.
+
+
 
