@@ -1,0 +1,35 @@
+{
+  "train": {
+    "start_date": "2022-01-01",
+    "end_date": "2023-09-15",
+    "row_count": 62300,
+    "stockout_flag_distribution": {
+      "negative_count_0": 32071,
+      "positive_count_1": 30229,
+      "positive_percentage": 48.52
+    }
+  },
+  "gap_train_val_days": 7,
+  "validation": {
+    "start_date": "2023-09-23",
+    "end_date": "2023-11-20",
+    "row_count": 5900,
+    "stockout_flag_distribution": {
+      "negative_count_0": 3920,
+      "positive_count_1": 1980,
+      "positive_percentage": 33.56
+    }
+  },
+  "gap_val_test_days": 7,
+  "test": {
+    "start_date": "2023-11-28",
+    "end_date": "2024-01-23",
+    "row_count": 5700,
+    "stockout_flag_distribution": {
+      "negative_count_0": 3177,
+      "positive_count_1": 2523,
+      "positive_percentage": 44.26
+    }
+  },
+  "total_active_rows": 73900
+}
