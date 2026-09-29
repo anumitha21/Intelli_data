@@ -1,0 +1,39 @@
+# ── byte-compiled / cache ─────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# ── environments ──────────────────────────────────────
+.env
+.venv/
+venv/
+env/
+
+# ── notebooks checkpoints ────────────────────────────
+.ipynb_checkpoints/
+
+# ── large / generated data (rebuilt by make data) ────
+data/raw/
+data/processed/
+models/
+
+# ── reports figures (rebuilt) ────────────────────────
+reports/figures/
+
+# ── Tableau extracts (rebuilt by make extracts) ───────
+dashboard/tableau_extracts/*.csv
+
+# ── IDE / OS ─────────────────────────────────────────
+.idea/
+.vscode/
+*.DS_Store
+Thumbs.db
+
+# ── pytest / coverage ─────────────────────────────────
+.pytest_cache/
+htmlcov/
+.coverage
+
+# ── logs ─────────────────────────────────────────────
+*.log

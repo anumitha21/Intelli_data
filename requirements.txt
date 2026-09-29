@@ -1,0 +1,23 @@
+# StockSense – Python 3.11 dependencies
+# Pin major versions for reproducibility; minor patches allowed.
+
+pandas==2.2.*
+numpy==1.26.*
+scikit-learn==1.5.*
+xgboost==2.1.*
+scipy==1.13.*
+statsmodels==0.14.*
+matplotlib==3.9.*
+seaborn==0.13.*
+plotly==5.22.*
+fastapi==0.111.*
+uvicorn[standard]==0.30.*
+pydantic==2.7.*
+gradio==4.40.*
+joblib==1.4.*
+pyarrow==16.*
+pytest==8.*
+httpx==0.27.*          # for FastAPI TestClient
+holidays==0.51.*
+ipykernel==6.*
+nbformat==5.*
