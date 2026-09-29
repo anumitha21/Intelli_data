@@ -1,44 +1,49 @@
 ## StockSense Makefile
-## Targets: data, clean, features, train, api, app, extracts, test, all
-## Run `make all` from the repo root to reproduce everything from scratch.
+## Targets: data, clean, features, eval, explain, recommend, test, api, app, all
+## Run `make all` from a clean clone to reproduce the entire pipeline end-to-end.
 
 PYTHON = python
 SRC    = src
 
-.PHONY: all data clean features train api app extracts test
+.PHONY: all data clean features eval explain recommend test api app
 
-## Build the 5 NovaMart CSVs from data/external/sales_data.csv
+## 1. Build the 5 NovaMart raw CSVs with simulated inventory identities & injected traps
 data:
 	$(PYTHON) $(SRC)/build_novamart.py
 
-## Run cleaning, build master.csv, generate data quality report
+## 2. Clean data, impute missing values, audit integrity, generate master table & EDA figures
 clean:
 	$(PYTHON) $(SRC)/clean.py
+	$(PYTHON) $(SRC)/master.py
 
-## Engineer features and build target columns
+## 3. Engineer leak-safe features, purge gaps, and build chronological partitions
 features:
 	$(PYTHON) $(SRC)/features.py
 
-## Train regression and classification models
-train:
-	$(PYTHON) $(SRC)/train_regression.py
-	$(PYTHON) $(SRC)/train_classification.py
+## 4. Execute time-series CV, benchmark 6 models, test significance, output model_registry.json
+eval:
+	$(PYTHON) $(SRC)/model_eval.py
 
-## Produce recommendation tables and Tableau extracts
-extracts:
+## 5. Generate per-row TreeSHAP attributions and manager language explanations
+explain:
+	$(PYTHON) $(SRC)/explain.py
+
+## 6. Score test period, compute dynamic safety stock, export recommendations and dashboard data
+recommend:
 	$(PYTHON) $(SRC)/recommend.py
+	$(PYTHON) $(SRC)/dashboard_data.py
 
-## Start FastAPI backend (runs in foreground; use & or a separate shell)
-api:
-	uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
-
-## Start Gradio frontend (expects API running on port 8000)
-app:
-	$(PYTHON) dashboard/gradio_app.py
-
-## Run all pytest tests
+## 7. Run complete pytest test suite (30 unit & integrity tests)
 test:
 	pytest tests/ -v
 
-## Run full pipeline end-to-end
-all: data clean features train extracts test
+## 8. Run end-to-end reproducible pipeline
+all: data clean features eval explain recommend test
+
+## 9. Launch FastAPI decision-support service (Port 8000)
+api:
+	uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
+
+## 10. Launch Gradio decision-support frontend (Port 7860)
+app:
+	$(PYTHON) dashboard/gradio_app.py

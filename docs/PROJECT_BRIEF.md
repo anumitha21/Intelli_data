@@ -1,4 +1,14 @@
-<USER_REQUEST>
+## OVERRIDE (takes priority over anything below)
+No Tableau. All visualisation is done inside the Gradio app using matplotlib and seaborn
+(figures shown with gr.Plot / gr.Image, and also saved as PNGs in reports/figures/).
+Ignore every mention of Tableau, tableau_extracts, DASHBOARD_SPEC.md and fact_*.csv exports.
+The Gradio app must cover ALL required visualization sections from the PS:
+Executive Summary, Demand Intelligence, Inventory Risk, Manager Action Centre,
+Model Performance, Explainability (plus the Model Evaluation page).
+The app reads saved artifacts from data/processed/ and reports/.
+
+---
+
 # StockSense: Lean Antigravity Prompt Pack (PS scope only)
 
 ## How to use

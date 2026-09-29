@@ -159,16 +159,25 @@ class StockSenseExplainer:
             "explanation_sentence": sentence
         }
 
+_EXPLAINER_INSTANCE = None
+_EXPLAIN_DF_CACHE = {}
+
 def explain_row(store_id: str, product_id: str, date: str, dataset_path="data/processed/features_test.parquet", top_k=5) -> dict:
     """
     API function: Returns the top drivers and manager-friendly sentence explanation
     for a given (store_id, product_id, date).
     """
-    explainer = StockSenseExplainer()
+    global _EXPLAINER_INSTANCE, _EXPLAIN_DF_CACHE
+    if _EXPLAINER_INSTANCE is None:
+        _EXPLAINER_INSTANCE = StockSenseExplainer()
+    explainer = _EXPLAINER_INSTANCE
     
-    # Load dataset
-    df = pd.read_parquet(dataset_path)
-    df['date_str'] = pd.to_datetime(df['date']).dt.strftime('%Y-%m-%d')
+    # Load dataset with cache
+    if dataset_path not in _EXPLAIN_DF_CACHE:
+        df = pd.read_parquet(dataset_path)
+        df['date_str'] = pd.to_datetime(df['date']).dt.strftime('%Y-%m-%d')
+        _EXPLAIN_DF_CACHE[dataset_path] = df
+    df = _EXPLAIN_DF_CACHE[dataset_path]
     date_clean = pd.to_datetime(date).strftime('%Y-%m-%d')
     
     sub = df[(df['store_id'] == store_id) & (df['product_id'] == product_id) & (df['date_str'] == date_clean)]

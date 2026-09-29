@@ -125,13 +125,20 @@ def score_inventory_recommendations(features_path="data/processed/features_test.
     
     return df, manager_table
 
+_SCORED_CACHE = None
+
 def get_recommendation_card(store_id: str, product_id: str, as_of_date: str = None, scored_df: pd.DataFrame = None) -> dict:
     """
     Constructs a complete decision-support Recommendation Card for a Store x Product.
     Includes forecast, inventory positions, risk, top explainability drivers, and manager action.
     """
+    global _SCORED_CACHE
     if scored_df is None:
-        scored_df, _ = score_inventory_recommendations()
+        if _SCORED_CACHE is not None:
+            scored_df = _SCORED_CACHE
+        else:
+            _SCORED_CACHE, _ = score_inventory_recommendations()
+            scored_df = _SCORED_CACHE
         
     sub = scored_df[(scored_df['store_id'] == store_id) & (scored_df['product_id'] == product_id)]
     if as_of_date:
@@ -225,6 +232,9 @@ MANAGER ACTION:
     card_dict["formatted_text"] = card_text
     return card_dict
 
+_WHATIF_BUNDLE_CACHE = None
+_WHATIF_DF_CACHE = None
+
 def what_if_scenario(store_id: str, product_id: str, as_of_date: str,
                      discount_delta: float = 0.0, extra_lead_days: int = 0,
                      festival_uplift_pct: float = 0.0, registry_path="models/model_registry.json") -> dict:
@@ -234,7 +244,10 @@ def what_if_scenario(store_id: str, product_id: str, as_of_date: str,
     - extra_lead_days: supplier delay, e.g. +2 days
     - festival_uplift_pct: festival demand spike, e.g. +25%
     """
-    model_bundle = load_models_from_registry(registry_path)
+    global _WHATIF_BUNDLE_CACHE, _WHATIF_DF_CACHE
+    if _WHATIF_BUNDLE_CACHE is None:
+        _WHATIF_BUNDLE_CACHE = load_models_from_registry(registry_path)
+    model_bundle = _WHATIF_BUNDLE_CACHE
     reg_model = model_bundle["regression_model"]
     clf_model = model_bundle["classification_model"]
     feat_cols = model_bundle["clf_features"]
