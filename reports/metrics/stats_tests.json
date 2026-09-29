@@ -1,0 +1,54 @@
+{
+  "kpis": {
+    "total_revenue_inr": 1090048278.85,
+    "total_units_sold": 7611084,
+    "stockout_rate_pct": 8.75,
+    "inventory_turnover_annual": 161.06,
+    "days_of_inventory_doi": 2.3,
+    "overall_promotion_lift_pct": 15.14,
+    "estimated_lost_sales_inr": 26276402.65
+  },
+  "normality_test": {
+    "test": "Shapiro-Wilk Normality Test",
+    "sample_size": 5000,
+    "statistic": 0.9857,
+    "p_value": 4.093587090111354e-22,
+    "is_normal": false,
+    "interpretation": "Units sold distribution departs significantly from normality (p < 0.001); non-parametric hypothesis tests are mandatory."
+  },
+  "statistical_tests": [
+    {
+      "business_question": "Do promotions significantly increase sales?",
+      "h0": "Median daily sales under promotion are less than or equal to median sales without promotion.",
+      "h1": "Median daily sales under promotion are significantly higher than non-promotional days.",
+      "test_used": "Mann-Whitney U Test (one-sided greater)",
+      "statistic": 591710634.5,
+      "p_value": 2.902695872010432e-212,
+      "effect_size": "Rank-Biserial r = -0.1545",
+      "decision": "Reject H0 (Statistically Significant)",
+      "business_interpretation": "Promotions produce a statistically significant uplift in daily sales volume (p = 2.9027e-212, lift = +15.1%). NovaMart should prioritize tactical promo campaigns on high-margin categories."
+    },
+    {
+      "business_question": "Does daily demand differ across store types (Hypermarket, Supermarket, Express)?",
+      "h0": "Daily demand distributions are identical across Hypermarket, Supermarket, and Express stores.",
+      "h1": "At least one store type has a significantly different demand distribution.",
+      "test_used": "Kruskal-Wallis H-Test (Non-parametric ANOVA)",
+      "statistic": 84.75,
+      "p_value": 3.9462172194353283e-19,
+      "effect_size": "Epsilon-squared = 0.0011",
+      "decision": "Reject H0 (Statistically Significant)",
+      "business_interpretation": "Daily sales demand differs significantly by store format (p = 3.9462e-19), with Hypermarket formats handling higher throughput than Express formats, requiring distinct inventory replenishment cadence."
+    },
+    {
+      "business_question": "Is stock-out frequency significantly associated with promotional status?",
+      "h0": "Stock-out occurrence is statistically independent of promotional status.",
+      "h1": "Stock-out occurrence is significantly dependent on promotional campaigns.",
+      "test_used": "Chi-Square Test of Independence (with Yates continuity correction)",
+      "statistic": 5.01,
+      "p_value": 0.025130586074237987,
+      "effect_size": "Cramer's V = 0.0081",
+      "decision": "Reject H0 (Statistically Significant)",
+      "business_interpretation": "Promotional surge creates elevated demand spikes that amplify stock-out vulnerabilities (p = 2.5131e-02, Cramer's V = 0.0081). Supply chain reorder schedules must incorporate promotional calendars."
+    }
+  ]
+}

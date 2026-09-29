@@ -1,0 +1,50 @@
+[
+  {
+    "dataset": "products.csv",
+    "issue": "Category spelling and casing variants (e.g. beverage/BEVERAGES)",
+    "detected_count": 2,
+    "injected_count": 2,
+    "action_taken": "Standardised to canonical title-case category names",
+    "justification": "Ensures consistent category groupings across analysis, reporting, and model feature aggregations"
+  },
+  {
+    "dataset": "external_factors.csv",
+    "issue": "Missing temperature values (blank temperatures)",
+    "detected_count": 91,
+    "injected_count": 91,
+    "action_taken": "Time-aware linear interpolation grouped by city with boundary backfill/forwardfill",
+    "justification": "Daily temperatures exhibit strong local temporal autocorrelation; per-city interpolation preserves continuous local weather dynamics without leakage across geographical regions"
+  },
+  {
+    "dataset": "inventory.csv",
+    "issue": "Inventory arithmetic discrepancies (closing != opening + received - sold)",
+    "detected_count": 1141,
+    "injected_count": 1141,
+    "action_taken": "Reconciled closing_stock using physical conservation law: closing = opening + received - sold",
+    "justification": "Physical mass balance is an invariant domain law in retail warehouse/store accounting; correcting discrepancies eliminates corruption in stock-out indicators"
+  },
+  {
+    "dataset": "transactions.csv",
+    "issue": "Duplicate transactions (identical transaction IDs)",
+    "detected_count": 7092,
+    "injected_count": 7092,
+    "action_taken": "Deduplicated rows keeping first occurrence based on unique transaction_id",
+    "justification": "Duplicate transaction logs inflate sales revenue and units sold, biasing demand models upward"
+  },
+  {
+    "dataset": "transactions.csv",
+    "issue": "Impossible quantities (negative or zero quantities)",
+    "detected_count": 2837,
+    "injected_count": 2837,
+    "action_taken": "Filtered out non-positive quantity transaction records",
+    "justification": "Negative/zero quantities represent entry errors or unprocessed returns with corrupted revenue calculations that distort retail POS demand tracking"
+  },
+  {
+    "dataset": "products.csv",
+    "issue": "Sparse product sales history (< 28 days / cold start)",
+    "detected_count": 2,
+    "injected_count": 2,
+    "action_taken": "Created history_days feature and cold_start binary indicator; flagged for category-level empirical prior fallback",
+    "justification": "New products with under 28 days of historical data cannot support 14-day lag or rolling features; cold-start items require category-level mean imputation during inference"
+  }
+]
